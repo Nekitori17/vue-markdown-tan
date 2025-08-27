@@ -1,0 +1,124 @@
+.vue-markdown-tan--light {
+  --md-bg-color: transparent;
+  --md-text-color: #24292e;
+  --md-text-secondary: #586069;
+  --md-border-color: #00000000;
+  --md-code-bg: #f6f8fa;
+  --md-code-border: #e1e4e8;
+  --md-blockquote-border: #9c9c9c;
+  --md-blockquote-bg: rgba(226, 226, 226, 0.5);
+  --md-table-border: #000000;
+  --md-table-bg: #f0f0f0;
+  --md-table-alt-bg: #f6f8fa;
+  --md-link-color: #468ad8;
+  --md-link-hover: #6ea8ff;
+  --md-heading-color: #24292e;
+  --md-hr-color: #e1e4e8;
+  --md-mark-bg: #fff3cd;
+  --md-mark-color: #856404;
+}
+
+.vue-markdown-tan--light h1,
+.vue-markdown-tan--light h2,
+.vue-markdown-tan--light h3,
+.vue-markdown-tan--light h4,
+.vue-markdown-tan--light h5,
+.vue-markdown-tan--light h6 {
+  color: var(--md-heading-color);
+}
+.vue-markdown-tan--light a {
+  color: var(--md-link-color);
+}
+
+.vue-markdown-tan--light a:hover {
+  color: var(--md-link-hover);
+}
+
+.vue-markdown-tan--light blockquote {
+  color: var(--md-text-secondary);
+  background-color: var(--md-blockquote-bg);
+  border-left: 0.25em solid var(--md-blockquote-border);
+  padding: 0.25em 0.5em;
+}
+
+.vue-markdown-tan--light code {
+  background-color: var(--md-code-bg);
+  border: 1px solid var(--md-code-border);
+  border-radius: 3px;
+  padding: 0.15em;
+  color: var(--md-text-secondary);
+}
+
+.vue-markdown-tan--light ul {
+  list-style-position: inside;
+}
+
+.vue-markdown-tan--light ol {
+  list-style-position: inside;
+}
+
+.vue-markdown-tan--light pre {
+  background-color: var(--md-code-bg);
+  border: 1px solid var(--md-code-border);
+  border-radius: 3px;
+  overflow: auto;
+  padding: 0.25em;
+}
+
+.vue-markdown-tan--light pre code {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  color: var(--md-text-color);
+}
+
+.vue-markdown-tan--light table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  overflow: auto;
+}
+
+.vue-markdown-tan--light table th,
+.vue-markdown-tan--light table td {
+  border: 1px solid var(--md-table-border);
+  padding: 0.25em;
+  color: var(--md-text-color);
+}
+
+.vue-markdown-tan--light table th {
+  background-color: var(--md-table-alt-bg);
+}
+
+.vue-markdown-tan--light table tr:nth-child(2n) {
+  background-color: var(--md-table-alt-bg);
+}
+
+.vue-markdown-tan--light hr {
+  margin: 0.75em 0;
+  background-color: var(--md-hr-color);
+}
+
+.vue-markdown-tan--light img {
+  max-width: 100%;
+  height: auto;
+}
+
+.vue-markdown-tan--light mark {
+  background-color: var(--md-mark-bg);
+  color: var(--md-mark-color);
+}
+
+.vue-markdown-tan--light .hljs {
+  background-color: var(--md-code-bg) !important;
+}
+
+.vue-markdown-tan--light .hljs-keyword { color: #ff7b72; }
+.vue-markdown-tan--light .hljs-string { color: #a5d6ff; }
+.vue-markdown-tan--light .hljs-comment { color: #8b949e; font-style: italic; }
+.vue-markdown-tan--light .hljs-number { color: #79c0ff; }
+.vue-markdown-tan--light .hljs-function { color: #d2a8ff; }
+.vue-markdown-tan--light .hljs-variable { color: #ffa657; }
+.vue-markdown-tan--light .hljs-title { color: #7ee787; }
