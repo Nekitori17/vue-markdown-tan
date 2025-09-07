@@ -29,56 +29,69 @@ import { tasklist as MarkdownItTaskLis } from "@mdit/plugin-tasklist";
 
 import "highlight.js/styles/atom-one-dark.css";
 
-type AnyPlugin = PluginSimple | PluginWithOptions<any> | PluginWithParams;
+export type AnyPlugin<O = any> =
+  | PluginSimple
+  | PluginWithOptions<O>
+  | PluginWithParams
 
-type ExtractPluginOptions<T> = T extends PluginWithOptions<infer O>
-  ? O
-  : T extends PluginWithParams
-  ? Parameters<T>[1]
-  : never;
+export type ExtractPluginOptions<T> =
+  T extends PluginWithOptions<infer O>
+    ? O
+    : T extends PluginWithParams
+    ? Parameters<T>[1]
+    : never
 
-type RequiresOption<T> = T extends PluginWithOptions<any>
-  ? true
-  : T extends PluginWithParams
-  ? true
-  : false;
+export type RequiresOption<T> =
+  T extends PluginWithOptions<any>
+    ? true
+    : T extends PluginWithParams
+    ? true
+    : false
 
-export type PluginOption<P extends readonly AnyPlugin[]> = {
+type PluginOption<P extends readonly AnyPlugin[]> = {
   [K in keyof P]?: RequiresOption<P[K]> extends true
     ? ExtractPluginOptions<P[K]>
-    : never;
-};
+    : never
+}
 
-export interface Props<P extends readonly AnyPlugin[] = readonly AnyPlugin[]> {
+/**
+ * Props of the VueMarkdownTan component.
+ *
+ * @typeParam P - List of plugins passed into the component
+ */
+export interface Props<
+  P extends readonly AnyPlugin[] = readonly AnyPlugin[]
+> {
   /**
-   * The markdown content to render.
+   * The markdown content to render
    */
-  content: string;
-
-  /**
-   * The theme of the markdown content.
-   */
-  theme?: "light" | "dark";
-
-  /**
-   * The markdown-it options.
-   */
-  options?: Options;
+  content: string
 
   /**
-   * The markdown-it plugins.
+   * Theme for rendering: "light" or "dark"
    */
-  plugins?: readonly [...P];
+  theme?: "light" | "dark"
 
   /**
-   * The markdown-it plugin options.
+   * Default markdown-it options
    */
-  pluginOptions?: PluginOption<P>;
+  options?: Options
 
   /**
-   * Whether to display the copy button for codeblock.
+   * List of markdown-it plugins
    */
-  copyBtn?: boolean;
+  plugins?: readonly [...P]
+
+  /**
+   * Options for the given plugins.
+   * Types are automatically inferred from plugins.
+   */
+  pluginOptions?: PluginOption<P>
+
+  /**
+   * Whether to show the copy button in code blocks
+   */
+  copyBtn?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
