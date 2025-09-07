@@ -47,10 +47,18 @@
     "type-check": "vue-tsc --build"
   },
   "dependencies": {
+    "@mdit/plugin-dl": "^0.22.1",
+    "@mdit/plugin-katex": "^0.23.1",
+    "@mdit/plugin-mark": "^0.22.1",
+    "@mdit/plugin-sub": "^0.22.1",
+    "@mdit/plugin-sup": "^0.22.1",
+    "@mdit/plugin-tasklist": "^0.22.1",
     "@types/html-to-text": "^9.0.4",
+    "@types/markdown-it-emoji": "^3.0.1",
     "dompurify": "^3.2.6",
     "html-to-text": "^9.0.5",
     "markdown-it": "^14.1.0",
+    "markdown-it-emoji": "^3.0.0",
     "markdown-it-highlightjs": "^4.2.0",
     "vue": "^3.5.18"
   },

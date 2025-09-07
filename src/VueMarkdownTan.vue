@@ -18,6 +18,17 @@ import MarkdownIt from "markdown-it";
 import { computed, useTemplateRef, watch, nextTick } from "vue";
 import { htmlToText } from "html-to-text";
 
+import MarkdownItHighlightJS from "markdown-it-highlightjs";
+import { full as MarkdownItEmoji } from "markdown-it-emoji"
+import { dl as MarkdownItDL } from "@mdit/plugin-dl";
+import { mark as MarkdownItMark } from "@mdit/plugin-mark";
+import { katex as MarkdownItKatex } from "@mdit/plugin-katex";
+import { sub as MarkdownItSub } from "@mdit/plugin-sub";
+import { sup as MarkdownItSup } from "@mdit/plugin-sup";
+import { tasklist as MarkdownItTaskLis } from "@mdit/plugin-tasklist";
+
+import "highlight.js/styles/atom-one-dark.css";
+
 type AnyPlugin = PluginSimple | PluginWithOptions<any> | PluginWithParams;
 
 type ExtractPluginOptions<T> = T extends PluginWithOptions<infer O>
@@ -71,8 +82,8 @@ export interface Props<P extends readonly AnyPlugin[] = readonly AnyPlugin[]> {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  theme: 'light',
-  copyBtn: false
+  theme: "light",
+  copyBtn: false,
 });
 
 const emit = defineEmits<{
@@ -93,11 +104,22 @@ const md = computed(() => {
     }
   );
 
+  // Install default plugin
+  markdownIt.use(MarkdownItHighlightJS);
+  markdownIt.use(MarkdownItEmoji);
+  markdownIt.use(MarkdownItDL);
+  markdownIt.use(MarkdownItMark);
+  markdownIt.use(MarkdownItKatex);
+  markdownIt.use(MarkdownItSub);
+  markdownIt.use(MarkdownItSup);
+  markdownIt.use(MarkdownItTaskLis);
+  
+
   if (props.plugins && props.plugins.length > 0) {
     props.plugins.forEach((plugin, index) => {
       try {
         const pluginOptions = props.pluginOptions?.[index];
-        
+
         if (pluginOptions !== undefined && pluginOptions !== null) {
           markdownIt.use(plugin as any, pluginOptions);
         } else {
@@ -115,7 +137,7 @@ const md = computed(() => {
 
 // Render markdown content to HTML
 const renderedMarkdown = computed(() => {
-  if (!props.content || typeof props.content !== 'string') {
+  if (!props.content || typeof props.content !== "string") {
     return "";
   }
 
@@ -124,9 +146,10 @@ const renderedMarkdown = computed(() => {
     emit("rendered", html);
     return html;
   } catch (error) {
-    const errorMessage = error instanceof Error 
-      ? error.message 
-      : "Unknown markdown rendering error";
+    const errorMessage =
+      error instanceof Error
+        ? error.message
+        : "Unknown markdown rendering error";
 
     console.error("Markdown rendering error:", error);
     emit("error", new Error(errorMessage));
@@ -147,20 +170,52 @@ const sanitizedMarkdown = computed(() => {
   try {
     return DOMPurify.sanitize(renderedMarkdown.value, {
       ALLOWED_TAGS: [
-        "h1", "h2", "h3", "h4", "h5", "h6",
-        "p", "br", "hr",
-        "strong", "em", "u", "s", "sup", "sub", "mark",
-        "ul", "ol", "li",
-        "blockquote", "pre", "code",
-        "table", "thead", "tbody", "tr", "th", "td",
-        "a", "img", "div", "span"
+        "h1",
+        "h2",
+        "h3",
+        "h4",
+        "h5",
+        "h6",
+        "p",
+        "br",
+        "hr",
+        "strong",
+        "em",
+        "u",
+        "s",
+        "sup",
+        "sub",
+        "mark",
+        "ul",
+        "ol",
+        "li",
+        "blockquote",
+        "pre",
+        "code",
+        "table",
+        "thead",
+        "tbody",
+        "tr",
+        "th",
+        "td",
+        "a",
+        "img",
+        "div",
+        "span",
       ],
       ALLOWED_ATTR: [
-        "href", "src", "alt", "title", "class", "id", "target", "rel"
+        "href",
+        "src",
+        "alt",
+        "title",
+        "class",
+        "id",
+        "target",
+        "rel",
       ],
       ADD_TAGS: ["mark"],
       FORBID_TAGS: ["script", "object", "embed", "base"],
-      KEEP_CONTENT: true
+      KEEP_CONTENT: true,
     });
   } catch (error) {
     console.error("HTML sanitization error:", error);
@@ -176,10 +231,10 @@ watch(
   [() => props.copyBtn, sanitizedMarkdown],
   async ([copyBtn]) => {
     await nextTick();
-    
+
     const element = htmlMarkdown.value;
     if (!element) return;
-    
+
     const codeblocks = element.querySelectorAll("pre");
 
     if (copyBtn) {
@@ -195,14 +250,16 @@ watch(
 
           const handleCopy = async () => {
             try {
-              const codeContent = code.querySelector("code")?.textContent || 
-                                 code.querySelector("code")?.innerHTML;
-              
+              const codeContent =
+                code.querySelector("code")?.textContent ||
+                code.querySelector("code")?.innerHTML;
+
               if (codeContent) {
-                const plainText = typeof codeContent === 'string' 
-                  ? codeContent 
-                  : htmlToText(codeContent);
-                
+                const plainText =
+                  typeof codeContent === "string"
+                    ? codeContent
+                    : htmlToText(codeContent);
+
                 await navigator.clipboard.writeText(plainText);
                 button.textContent = "Copied!";
                 setTimeout(() => (button.textContent = "Copy"), 2000);
