@@ -34,35 +34,11 @@ export type PluginOption<P extends readonly AnyPlugin[]> = {
 };
 
 export interface Props<P extends readonly AnyPlugin[] = readonly AnyPlugin[]> {
-  /**
-   * The markdown content to render.
-   */
   content: string;
-
-  /**
-   * The theme of the markdown content.
-   */
   theme?: "light" | "dark";
-
-  /**
-   * The markdown-it options.
-   */
   options?: Options;
-
-  /**
-   * The markdown-it plugins.
-   */
   plugins?: readonly [...P];
-
-  /**
-   * The markdown-it plugin options.
-   */
   pluginOptions?: PluginOption<P>;
-
-  /**
-   * Whether to display the copy button for codeblock.
-   */
-  copyBtn?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -70,7 +46,6 @@ const props = withDefaults(defineProps<Props>(), {
   options: () => ({}),
   plugins: () => [],
   pluginOptions: () => [],
-  copyBtn: true,
 });
 
 const emit = defineEmits<{
@@ -80,7 +55,6 @@ const emit = defineEmits<{
 
 const themeClass = computed(() => `vue-markdown-tan--${props.theme}`);
 
-// Create markdown instance with plugins and options (if provided)
 const md = computed(() => {
   const markdownIt = new MarkdownIt(
     props.options
@@ -113,7 +87,6 @@ const md = computed(() => {
   return markdownIt;
 });
 
-// Render markdown content to HTML
 const renderedMarkdown = computed(() => {
   if (!props.content) {
     return "";
@@ -140,7 +113,6 @@ const renderedMarkdown = computed(() => {
   }
 });
 
-// Sanitize HTML content
 const sanitizedMarkdown = computed(() => {
   if (!renderedMarkdown.value) {
     return "";
