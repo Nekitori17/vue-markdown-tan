@@ -47,8 +47,11 @@
     "type-check": "vue-tsc --build"
   },
   "dependencies": {
+    "@types/html-to-text": "^9.0.4",
     "dompurify": "^3.2.6",
+    "html-to-text": "^9.0.5",
     "markdown-it": "^14.1.0",
+    "markdown-it-highlightjs": "^4.2.0",
     "vue": "^3.5.18"
   },
   "devDependencies": {
